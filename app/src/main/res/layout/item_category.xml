@@ -9,8 +9,8 @@
     android:gravity="center_vertical">
 <androidx.cardview.widget.CardView
     android:layout_width="150dp"
-    android:backgroundTint="@color/cardview_light_background"
-    android:foregroundTint="@color/onPrimaryContainer"
+    android:backgroundTint="@color/onTertiary"
+    android:foregroundTint="@color/onTertiaryContainer"
     android:layout_height="wrap_content"
     app:cardCornerRadius="20dp">
     <TextView
@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="58dp"
         tools:text="Category"
-        android:textColor="@color/onPrimaryContainer"
+        android:textColor="@color/tertiary"
         android:layout_margin="8dp"
         android:textSize="18sp"/>
 
