@@ -19,6 +19,7 @@
         android:contentDescription="TODO"
         app:layout_constraintBottom_toBottomOf="parent"
         android:src="@drawable/ic_add"
+        android:layout_margin="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         >
 

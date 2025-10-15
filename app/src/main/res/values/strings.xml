@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">TODO-List</string>
-    <string name="category1">Groceries</string>
-    <string name="category2">Work</string>
-    <string name="category3">Studies</string>
-    <string name="category4">Reminders</string>
+    <string name="delete_category">Delete Category</string>
+    <string name="delete_check">Do you really want to delete Category</string>
+    <string name="delete_positive_confirm">Category deleted successfully</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

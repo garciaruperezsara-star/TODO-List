@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TODO-List</string>
+    <string name="delete_category">Borrar categoría</string>
+    <string name="delete_check">¿Está usted seguro de que quiere borrar la categoría:</string>
+    <string name="delete_positive_confirm">Categoría borrada correctamente</string>
+    <string name="yes">Si</string>
+    <string name="no">No</string>
+</resources>

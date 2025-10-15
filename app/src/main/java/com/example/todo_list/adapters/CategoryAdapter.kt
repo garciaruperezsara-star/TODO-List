@@ -6,9 +6,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.todo_list.data.Category
 import com.example.todo_list.databinding.ItemCategoryBinding
 
-class CategoryAdapter(
-    var items: List<Category>,
-    val onClickListener: (Int) -> Unit
+    class CategoryAdapter(
+var items: List<Category>,
+val onClickListener: (Int) -> Unit,
+val onEditListener: (Int) -> Unit,
+val onDeleteListener: (Int) -> Unit
 ) : RecyclerView.Adapter<CategoryViewHolder>() {
 
     // Cual es la vista para los elementos
@@ -24,6 +26,12 @@ class CategoryAdapter(
         holder.render(item)
         holder.itemView.setOnClickListener {
             onClickListener(position)
+        }
+        holder.binding.editButton.setOnClickListener {
+            onEditListener(position)
+        }
+        holder.binding.deleteButton.setOnClickListener {
+            onDeleteListener(position)
         }
     }
 
@@ -41,6 +49,6 @@ class CategoryAdapter(
 class CategoryViewHolder(val binding: ItemCategoryBinding) : RecyclerView.ViewHolder(binding.root) {
 
     fun render(category: Category) {
-
+        binding.nameTextView.text = category.name
     }
 }
