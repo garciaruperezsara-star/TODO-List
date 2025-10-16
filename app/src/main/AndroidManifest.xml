@@ -12,7 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TODOList">
         <activity
-            android:name=".CategoryActivity"
+            android:name=".activity.TaskActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.TaskListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.CategoryActivity"
             android:exported="false" />
         <activity
             android:name=".activity.MainActivity"

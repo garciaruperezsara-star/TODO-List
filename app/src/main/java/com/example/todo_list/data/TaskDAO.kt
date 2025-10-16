@@ -17,12 +17,12 @@ class TaskDAO(val context: Context) {
         db.close()
     }
 
-    fun insert(task: Task, task_id: String) {
+    fun insert(task: Task, category_id: String) {
         // Create a new map of values, where column names are the keys
         val values = ContentValues()
         values.put(Task.COLUMN_TITLE, task.title)
         values.put(Task.COLUMN_DONE, false)
-        values.put(Task.COLUMN_CATEGORY, task_id)
+        values.put(Task.COLUMN_CATEGORY, category_id)
         try {
             open()
             // Insert the new row, returning the primary key value of the new row
@@ -35,12 +35,12 @@ class TaskDAO(val context: Context) {
         }
     }
 
-    fun update(task: Task, done: Boolean, task_id: String) {
+    fun update(task: Task, category_id: String) {
         // Create a new map of values, where column names are the keys
         val values = ContentValues()
         values.put(Task.COLUMN_TITLE, task.title)
         values.put(Task.COLUMN_DONE, false)
-        values.put(Task.COLUMN_CATEGORY, task_id)
+        values.put(Task.COLUMN_CATEGORY, category_id)
 
         try {
             open()
@@ -69,7 +69,7 @@ class TaskDAO(val context: Context) {
         }
     }
 
-    fun find(id: Int) : Task? {
+    fun findBy(id: Int) : Task? {
         var task: Task? = null
 
         // Define a projection that specifies which columns from the database

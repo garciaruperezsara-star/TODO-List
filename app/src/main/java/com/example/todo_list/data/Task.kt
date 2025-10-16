@@ -2,7 +2,7 @@ package com.example.todo_list.data
 
 data class Task(
     val id: Int,
-    val title: String,
+    var title: String,
     val done: Boolean,
     val categoryId: Int
 ) {

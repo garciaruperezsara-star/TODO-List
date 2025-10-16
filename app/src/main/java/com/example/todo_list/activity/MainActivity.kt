@@ -7,12 +7,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.todo_list.CategoryActivity
 import com.example.todo_list.R
 import com.example.todo_list.adapters.CategoryAdapter
+import com.example.todo_list.adapters.TaskAdapter
 import com.example.todo_list.data.Category
 import com.example.todo_list.data.CategoryDAO
+import com.example.todo_list.data.Task
+import com.example.todo_list.data.TaskDAO
 import com.example.todo_list.databinding.ActivityMainBinding
 import com.google.android.material.snackbar.Snackbar
 
@@ -21,10 +22,13 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
 
-    lateinit var adapter: CategoryAdapter
+    lateinit var categoryAdapter: CategoryAdapter
+    lateinit var taskAdapter: TaskAdapter
     var categoryList: List<Category> = emptyList()
+    var taskList: List<Task> = emptyList()
 
     lateinit var categoryDAO: CategoryDAO
+    lateinit var taskDAO: TaskDAO
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,8 +44,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         categoryDAO = CategoryDAO(this)
+        taskDAO = TaskDAO(this)
 
-        adapter = CategoryAdapter(categoryList, { position ->
+        categoryAdapter = CategoryAdapter(categoryList, { position ->
             // Click
         }, { position ->
             // Edit
@@ -55,7 +60,7 @@ class MainActivity : AppCompatActivity() {
 
             val dialog = AlertDialog.Builder(this)
                 .setTitle(getString(R.string.delete_category))
-                .setMessage(getString(R.string.delete_check)+"${category.name}?")
+                .setMessage(getString(R.string.delete_check) + "${category.name}?")
                 .setPositiveButton(getString(R.string.yes)) { dialog, which ->
                     categoryDAO.delete(category.id)
                     loadData()
@@ -73,8 +78,44 @@ class MainActivity : AppCompatActivity() {
 
         })
 
-        binding.recyclerView.adapter = adapter
-        binding.recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        taskAdapter = TaskAdapter(taskList, { position ->
+            // Click
+        }, { position ->
+            // Edit
+            val task = taskList[position]
+            val intent = Intent(this, TaskActivity::class.java)
+            intent.putExtra("TASK_ID", task.id)
+            intent.putExtra("CATEGORY_ID", task.categoryId)
+            startActivity(intent)
+        }, { position ->
+            // Edit
+            val task = taskList[position]
+
+        }, { position ->
+            // Delete
+            val task = taskList[position]
+
+            val dialog = AlertDialog.Builder(this)
+                .setTitle(getString(R.string.delete_category))
+                .setMessage(getString(R.string.delete_check) + "${task.title}?")
+                .setPositiveButton(getString(R.string.yes)) { dialog, which ->
+                    taskDAO.delete(task.id)
+                    loadData()
+                    Snackbar.make(
+                        binding.root,
+                        getString(R.string.delete_positive_confirm),
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                    //Toast.makeText(this, getString(R.string.delete_positive_confirm), Toast.LENGTH_SHORT).show()
+                }
+                .setNegativeButton(getString(R.string.no), null)
+                .create()
+            dialog.show()
+        })
+
+
+        binding.recyclerViewCategory.adapter = categoryAdapter
+        binding.recyclerViewTask.adapter = taskAdapter
 
 
         binding.createButtom.setOnClickListener {
@@ -91,6 +132,6 @@ class MainActivity : AppCompatActivity() {
 
     fun loadData() {
         categoryList = categoryDAO.findAll()
-        adapter.updateItems(categoryList)
+        categoryAdapter.updateItems(categoryList)
     }
 }

@@ -1,14 +1,14 @@
-package com.example.todo_list
+package com.example.todo_list.activity
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.todo_list.R
 import com.example.todo_list.data.Category
 import com.example.todo_list.data.CategoryDAO
 import com.example.todo_list.databinding.ActivityCategoryBinding
-
 
 class CategoryActivity : AppCompatActivity() {
 
