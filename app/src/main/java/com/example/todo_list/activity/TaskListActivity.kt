@@ -22,6 +22,8 @@ class TaskListActivity : AppCompatActivity() {
     lateinit var taskAdapter: TaskAdapter
     var taskList: List<Task> = emptyList()
     var categoryId by Delegates.notNull<Int>()
+    var doneSelected: Boolean = false
+    var undoneSelected: Boolean = false
 
     lateinit var categoryDAO: CategoryDAO
     lateinit var taskDAO: TaskDAO
@@ -95,58 +97,59 @@ class TaskListActivity : AppCompatActivity() {
 
         }
 
-        var doneSelected: Boolean = false
-        var undoneSelected: Boolean = false
-        binding.doneCard.setOnClickListener {
-            if (doneSelected == true&& undoneSelected == false) {
-                doneSelected = false
-                doneFilter(doneSelected)
-                binding.doneCard.isSelected = doneSelected
-                Log.i("CHEK", "done selected is $doneSelected")
-                Log.i("CHEK", "undone selected is $undoneSelected")
-            } else if (doneSelected == false) {
-                doneSelected = true
-                doneFilter(doneSelected)
-                binding.doneCard.isSelected = doneSelected
-                Log.i("CHEK", "done selected is $doneSelected")
-                Log.i("CHEK", "undone selected is $undoneSelected")
-            } else if (doneSelected == false && undoneSelected == true) {
-                doneSelected = true
-                undoneSelected = false
-                doneFilter(doneSelected)
-                binding.doneCard.isSelected = doneSelected
-                binding.undoneCard.isSelected = undoneSelected
-                Log.i("CHEK", "done selected is $doneSelected")
-                Log.i("CHEK", "undone selected is $undoneSelected")
-            }
-        }
-        binding.undoneCard.setOnClickListener {
-            if (undoneSelected == true&& doneSelected == false) {
-                undoneSelected = false
-                doneFilter(undoneSelected)
-                binding.undoneCard.isSelected = undoneSelected
-                Log.i("CHEK", "done selected is $doneSelected")
-                Log.i("CHEK", "undone selected is $undoneSelected")
-            } else if (undoneSelected == false) {
-                undoneSelected = true
-                doneFilter(undoneSelected)
-                binding.undoneCard.isSelected = undoneSelected
-                Log.i("CHEK", "done selected is $doneSelected")
-                Log.i("CHEK", "undone selected is $undoneSelected")
-            } else if (undoneSelected == false && doneSelected == true) {
-                undoneSelected = true
-                doneSelected = false
-                doneFilter(undoneSelected)
-                binding.undoneCard.isSelected = doneSelected
-                binding.undoneCard.isSelected = undoneSelected
-                Log.i("CHEK", "done selected is $doneSelected")
-                Log.i("CHEK", "undone selected is $undoneSelected")
-            }
-        }
 
 
+        fun doneCheck() {
+            binding.doneCard.setOnClickListener {
+                if (doneSelected == true && undoneSelected == false) {
+                    doneSelected = false
+                    binding.doneCard.isSelected = doneSelected
+                    doneFilter(doneSelected)
+                    Log.i("CHEK", "done selected is $doneSelected")
+                    Log.i("CHEK", "undone selected is $undoneSelected")
+                } else if (doneSelected == false) {
+                    doneSelected = true
+                    binding.doneCard.isSelected = doneSelected
+                    doneFilter(doneSelected)
+                    Log.i("CHEK", "done selected is $doneSelected")
+                    Log.i("CHEK", "undone selected is $undoneSelected")
+                } else if (doneSelected == false && undoneSelected == true) {
+                    doneSelected = true
+                    undoneSelected = false
+                    binding.doneCard.isSelected = doneSelected
+                    binding.undoneCard.isSelected = undoneSelected
+                    doneFilter(doneSelected)
+                    Log.i("CHEK", "done selected is $doneSelected")
+                    Log.i("CHEK", "undone selected is $undoneSelected")
+                }
+            }
+            binding.undoneCard.setOnClickListener {
+                if (undoneSelected == true && doneSelected == false) {
+                    undoneSelected = false
+                    binding.undoneCard.isSelected = undoneSelected
+                    doneFilter(undoneSelected)
+                    Log.i("CHEK", "done selected is $doneSelected")
+                    Log.i("CHEK", "undone selected is $undoneSelected")
+                } else if (undoneSelected == false) {
+                    undoneSelected = true
+                    binding.undoneCard.isSelected = undoneSelected
+                    Log.i("CHEK", "done selected is $doneSelected")
+                    Log.i("CHEK", "undone selected is $undoneSelected")
+                    doneFilter(undoneSelected)
+                } else if (undoneSelected == false && doneSelected == true) {
+                    undoneSelected = true
+                    doneSelected = false
+                    binding.undoneCard.isSelected = doneSelected
+                    binding.undoneCard.isSelected = undoneSelected
+                    doneFilter(undoneSelected)
+                    Log.i("CHEK", "done selected is $doneSelected")
+                    Log.i("CHEK", "undone selected is $undoneSelected")
+                }
+            }
+            doneCheck()
+
+        }
     }
-
     override fun onResume() {
         super.onResume()
         loadData()
