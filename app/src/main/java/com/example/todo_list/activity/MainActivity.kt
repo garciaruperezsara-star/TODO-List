@@ -42,12 +42,18 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
         categoryDAO = CategoryDAO(this)
         taskDAO = TaskDAO(this)
 
+
+
         categoryAdapter = CategoryAdapter(categoryList, { position ->
             // Click
+            val category = categoryList[position]
+            val intent = Intent(this, TaskListActivity::class.java)
+            intent.putExtra("CATEGORY_ID", category.id)
+            startActivity(intent)
+
         }, { position ->
             // Edit
             val category = categoryList[position]
@@ -113,10 +119,8 @@ class MainActivity : AppCompatActivity() {
             dialog.show()
         })
 
-
         binding.recyclerViewCategory.adapter = categoryAdapter
         binding.recyclerViewTask.adapter = taskAdapter
-
 
         binding.createButtom.setOnClickListener {
             val intent = Intent(this, CategoryActivity::class.java)
@@ -126,12 +130,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-
         loadData()
     }
 
     fun loadData() {
         categoryList = categoryDAO.findAll()
+        taskList = taskDAO.findAll()
         categoryAdapter.updateItems(categoryList)
+        taskAdapter.updateItems(taskList)
+
     }
 }

@@ -2,6 +2,7 @@ package com.example.todo_list.data
 
 import android.content.ContentValues
 import android.content.Context
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.util.Log
 import com.example.todo_list.utils.DatabaseManager
@@ -17,7 +18,7 @@ class TaskDAO(val context: Context) {
         db.close()
     }
 
-    fun insert(task: Task, category_id: String) {
+    fun insert(task: Task, category_id: Int) {
         // Create a new map of values, where column names are the keys
         val values = ContentValues()
         values.put(Task.COLUMN_TITLE, task.title)
@@ -35,7 +36,7 @@ class TaskDAO(val context: Context) {
         }
     }
 
-    fun update(task: Task, category_id: String) {
+    fun update(task: Task, category_id: Int) {
         // Create a new map of values, where column names are the keys
         val values = ContentValues()
         values.put(Task.COLUMN_TITLE, task.title)
@@ -68,13 +69,15 @@ class TaskDAO(val context: Context) {
             close()
         }
     }
-
-    fun findBy(id: Int) : Task? {
+    fun findAll(): List<Task> {
+        return findBy(null)
+    }
+    fun findById(id: Int) : Task? {
         var task: Task? = null
 
         // Define a projection that specifies which columns from the database
         // you will actually use after this query.
-        val projection = arrayOf(Task.COLUMN_ID, Task.COLUMN_TITLE, Task.COLUMN_DONE, Task.COLUMN_CATEGORY)
+        val projection = null //arrayOf(Task.COLUMN_ID, Task.COLUMN_NAME)
 
         // Filter results WHERE "title" = 'My Title'
         val selection = "${Task.COLUMN_ID} = $id"
@@ -85,6 +88,7 @@ class TaskDAO(val context: Context) {
 
         try {
             open()
+
             val cursor = db.query(
                 Task.TABLE_NAME,   // The table to query
                 projection,             // The array of columns to return (pass null to get all)
@@ -97,11 +101,7 @@ class TaskDAO(val context: Context) {
 
             // Read the cursor data
             if (cursor.moveToNext()) {
-                val id = cursor.getInt(cursor.getColumnIndexOrThrow(Task.COLUMN_ID))
-                val title = cursor.getString(cursor.getColumnIndexOrThrow(Task.COLUMN_TITLE))
-                val done = cursor.getInt(cursor.getColumnIndexOrThrow(Task.COLUMN_DONE))!=0
-                val categoryId = cursor.getInt(cursor.getColumnIndexOrThrow(Task.COLUMN_CATEGORY))
-                task = Task(id, title, done, categoryId)
+                task = readFromCursor(cursor)
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -111,5 +111,60 @@ class TaskDAO(val context: Context) {
 
         return task
     }
+
+    fun findAllByCategory(category: Int): List<Task> {
+        return findBy("${Task.COLUMN_CATEGORY} = ${category}")
+    }
+
+    fun findAllByCategoryAndDone(category: Int, done: Boolean): List<Task> {
+        return findBy("${Task.COLUMN_CATEGORY} = ${category} AND ${Task.COLUMN_DONE} = $done")
+    }
+
+    fun findBy(where: String?) : List<Task> {
+        val items: MutableList<Task> = mutableListOf()
+
+        // Define a projection that specifies which columns from the database
+        // you will actually use after this query.
+        val projection = null //arrayOf(Task.COLUMN_ID, Task.COLUMN_NAME)
+
+        // Filter results WHERE "title" = 'My Title'
+        //val selection = null
+        val selectionArgs = null
+
+        // How you want the results sorted in the resulting Cursor
+        val sortOrder = null
+
+        try {
+            open()
+            val cursor = db.query(
+                Task.TABLE_NAME,   // The table to query
+                projection,             // The array of columns to return (pass null to get all)
+                where,              // The columns for the WHERE clause
+                selectionArgs,          // The values for the WHERE clause
+                null,                   // don't group the rows
+                null,                   // don't filter by row groups
+                sortOrder               // The sort order
+            )
+
+            // Read the cursor data
+            while (cursor.moveToNext()) {
+                val task = readFromCursor(cursor)
+                items.add(task)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            close()
+        }
+        return items
+    }
+    private fun readFromCursor(cursor: Cursor): Task {
+        val id = cursor.getInt(cursor.getColumnIndexOrThrow(Task.COLUMN_ID))
+        val title = cursor.getString(cursor.getColumnIndexOrThrow(Task.COLUMN_TITLE))
+        val done = cursor.getInt(cursor.getColumnIndexOrThrow(Task.COLUMN_DONE)) != 0
+        val categoryId = cursor.getInt(cursor.getColumnIndexOrThrow(Task.COLUMN_CATEGORY))
+        return Task(id, title, done, categoryId)
+    }
+
 
 }

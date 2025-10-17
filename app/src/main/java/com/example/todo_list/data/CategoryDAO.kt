@@ -45,7 +45,12 @@ class CategoryDAO(val context: Context) {
             open()
 
             // Insert the new row, returning the primary key value of the new row
-            val updatedRows = db.update(Category.TABLE_NAME, values, "${Category.COLUMN_ID} = ${category.id}", null)
+            val updatedRows = db.update(
+                Category.TABLE_NAME,
+                values,
+                "${Category.COLUMN_ID} = ${category.id}",
+                null
+            )
             Log.i("DATABASE", "$updatedRows rows updated in table ${Category.TABLE_NAME}")
         } catch (e: Exception) {
             e.printStackTrace()
@@ -68,7 +73,7 @@ class CategoryDAO(val context: Context) {
         }
     }
 
-    fun find(id: Int) : Category? {
+    fun find(id: Int): Category? {
         var category: Category? = null
 
         // Define a projection that specifies which columns from the database
@@ -109,7 +114,7 @@ class CategoryDAO(val context: Context) {
         return category
     }
 
-    fun findAll() : List<Category> {
+    fun findAll(): List<Category> {
         val items: MutableList<Category> = mutableListOf()
 
         // Define a projection that specifies which columns from the database

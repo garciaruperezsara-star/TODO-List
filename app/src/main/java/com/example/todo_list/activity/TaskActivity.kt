@@ -1,6 +1,7 @@
 package com.example.todo_list.activity
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -32,10 +33,10 @@ class TaskActivity : AppCompatActivity() {
 
         if (task_id != -1) {
             // Edit
-            task = taskDAO.findBy(task_id)!!
+            task = taskDAO.findById(task_id)!!
         } else {
             // Crear
-            task = Task(-1, "", false, -1)
+            task = Task(-1, "", false, category_id)
         }
 
         binding.nameEditText.editText?.setText(task.title)
@@ -46,9 +47,11 @@ class TaskActivity : AppCompatActivity() {
             task.title = title
 
             if (task.id == -1) {
-                taskDAO.insert(task,category_id.toString())
+                taskDAO.insert(task,category_id)
+                Log.i("CREATE", category_id.toString())
             } else {
-                taskDAO.update(task,category_id.toString())
+                taskDAO.update(task,category_id)
+                Log.i("CREATE", category_id.toString())
             }
 
             finish()

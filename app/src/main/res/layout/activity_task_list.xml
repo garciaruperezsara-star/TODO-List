@@ -1,11 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.TaskListActivity">
+    tools:context=".activity.TaskListActivity"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/categoryText"
+        tools:text="Category"
+        android:textStyle="bold"
+        android:textSize="30sp"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:textColor="@color/primaryContainer"
+        />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/doneCard"
+        android:layout_margin="10dp"
+        android:backgroundTint="@color/primary"
+        android:clickable="true">
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:gravity="center"
+            android:text="Done"
+            android:layout_margin="10dp"
+            android:textColor="@color/onPrimary"/>
+
+    </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/undoneCard"
+            android:layout_margin="10dp"
+            android:backgroundTint="@color/tertiary"
+            android:clickable="true">
+            <TextView
+                android:layout_width="60dp"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:text="Undone"
+                android:layout_margin="10dp"
+                android:textColor="@color/onTertiary"/>
+
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
@@ -14,4 +69,19 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:orientation="vertical"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/createButtom"
+        app:tint="@color/secondary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="TODO"
+        android:src="@drawable/ic_add"
+        android:backgroundTint="@color/onSecondary"
+        android:layout_margin="50dp"
+       android:layout_gravity="bottom|right"
+        >
+
+    </com.google.android.material.floatingactionbutton.FloatingActionButton>
+ </FrameLayout>
+
+</LinearLayout>

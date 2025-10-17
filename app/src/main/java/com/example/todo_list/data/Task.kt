@@ -19,8 +19,8 @@ data class Task(
                     "$COLUMN_TITLE TEXT, " +
                     "$COLUMN_DONE BOOLEAN,"+
                     "$COLUMN_CATEGORY ITERGER,"+
-                    "FOREIGN KEY($COLUMN_CATEGORY) REFERENCES ${Category.TABLE_NAME}(${Category.COLUMN_ID}))"+
-                    "ON DELETE CASCADE"
+                    "FOREIGN KEY($COLUMN_CATEGORY) REFERENCES ${Category.TABLE_NAME}(${Category.COLUMN_ID})"+
+                    "ON DELETE CASCADE)"
 
         const val SQL_DROP_TABLE = "DROP TABLE IF EXISTS $TABLE_NAME"
     }
