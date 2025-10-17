@@ -87,66 +87,40 @@ class TaskListActivity : AppCompatActivity() {
             intent.putExtra("CATEGORY_ID", categoryId)
             startActivity(intent)
         }
-        fun doneFilter(done: Boolean) {
-            if (done == true) {
-                taskList = taskDAO.findAllByCategoryAndDone(categoryId, true)
-                taskAdapter.updateItems(taskList)
-            } else if (done == false) {
-                loadData()
-            }
-
-        }
-
 
 
         fun doneCheck() {
-            binding.doneCard.setOnClickListener {
                 if (doneSelected == true && undoneSelected == false) {
                     doneSelected = false
                     binding.doneCard.isSelected = doneSelected
-                    doneFilter(doneSelected)
-                    Log.i("CHEK", "done selected is $doneSelected")
-                    Log.i("CHEK", "undone selected is $undoneSelected")
-                } else if (doneSelected == false) {
-                    doneSelected = true
-                    binding.doneCard.isSelected = doneSelected
-                    doneFilter(doneSelected)
-                    Log.i("CHEK", "done selected is $doneSelected")
-                    Log.i("CHEK", "undone selected is $undoneSelected")
-                } else if (doneSelected == false && undoneSelected == true) {
-                    doneSelected = true
-                    undoneSelected = false
-                    binding.doneCard.isSelected = doneSelected
-                    binding.undoneCard.isSelected = undoneSelected
-                    doneFilter(doneSelected)
-                    Log.i("CHEK", "done selected is $doneSelected")
-                    Log.i("CHEK", "undone selected is $undoneSelected")
+                    loadData()
+                    taskAdapter.updateItems(taskList)
+
                 }
-            }
-            binding.undoneCard.setOnClickListener {
-                if (undoneSelected == true && doneSelected == false) {
+                else if (doneSelected == false && undoneSelected == true) {
+                    doneSelected = true
+                    undoneSelected = false
+                    binding.doneCard.isSelected = doneSelected
+                    binding.undoneCard.isSelected = undoneSelected
+                    taskList = taskDAO.findAllByCategoryAndDone(categoryId, true)
+                    taskAdapter.updateItems(taskList)
+                }
+                else if (undoneSelected == true && doneSelected == false) {
                     undoneSelected = false
                     binding.undoneCard.isSelected = undoneSelected
-                    doneFilter(undoneSelected)
-                    Log.i("CHEK", "done selected is $doneSelected")
-                    Log.i("CHEK", "undone selected is $undoneSelected")
-                } else if (undoneSelected == false) {
+
+                }
+                else if (undoneSelected == false) {
                     undoneSelected = true
                     binding.undoneCard.isSelected = undoneSelected
-                    Log.i("CHEK", "done selected is $doneSelected")
-                    Log.i("CHEK", "undone selected is $undoneSelected")
-                    doneFilter(undoneSelected)
-                } else if (undoneSelected == false && doneSelected == true) {
+                }
+                else if (undoneSelected == false && doneSelected == true) {
                     undoneSelected = true
                     doneSelected = false
                     binding.undoneCard.isSelected = doneSelected
                     binding.undoneCard.isSelected = undoneSelected
-                    doneFilter(undoneSelected)
-                    Log.i("CHEK", "done selected is $doneSelected")
-                    Log.i("CHEK", "undone selected is $undoneSelected")
-                }
+
             }
-            doneCheck()
 
         }
     }
